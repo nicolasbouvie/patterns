@@ -1,9 +1,11 @@
 package br.com.pattern.conn;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class FileConnection implements Connection {
+	@SuppressWarnings("unused")
 	private File outFolder;
 
 	public FileConnection(File outFolder) {
@@ -27,4 +29,8 @@ public class FileConnection implements Connection {
 		return null;
 	}
 
+	@Override
+	public void close() throws IOException {
+		
+	}
 }

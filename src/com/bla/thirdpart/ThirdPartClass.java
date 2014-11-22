@@ -1,6 +1,9 @@
 package com.bla.thirdpart;
 
-public final class ThirdPartClass {
+import java.io.Serializable;
+
+public final class ThirdPartClass implements Serializable {
+	private static final long serialVersionUID = -782391517974315989L;
 	private String name;
 
 	public ThirdPartClass(){}
@@ -15,5 +18,10 @@ public final class ThirdPartClass {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 }

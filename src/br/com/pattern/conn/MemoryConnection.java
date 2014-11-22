@@ -1,5 +1,6 @@
 package br.com.pattern.conn;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,6 +39,11 @@ public class MemoryConnection implements Connection {
 			return (Collection<T>) objetos.get(type).values();
 		}
 		return Collections.emptyList();
+	}
+
+	@Override
+	public void close() throws IOException {
+		
 	}
 
 }
