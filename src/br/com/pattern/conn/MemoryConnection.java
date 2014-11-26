@@ -1,40 +1,47 @@
 package br.com.pattern.conn;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.pattern.model.ThirdPartAdapter;
+
 public class MemoryConnection implements Connection {
-	private static Map<Class<? extends Persistent>, Map<Long, Persistent>> objetos;
-	
-	static {
-		objetos = new HashMap<Class<? extends Persistent>, Map<Long, Persistent>>();
-	}
+	private static Map<Class<?>, Map<Integer, Persistent>> objetos = new HashMap<>();
 	
 	@Override
-	public <T extends Persistent> T get(Class<T> type, long id) {
+	public <T extends Serializable> T get(Class<T> type, int id) {
 		if (objetos.containsKey(type)) {
 			Object obj = objetos.get(type).get(id);
-			if (type.isInstance(obj)) {
-				return type.cast(obj);
+			if (!Persistent.class.isAssignableFrom(type)) {
+				ThirdPartAdapter<?> adapter = (ThirdPartAdapter<?>) obj;
+				return type.cast(adapter.getThirdPart());
 			}
+			return type.cast(obj);
 		}
 		return null;
 	}
 
 	@Override
-	public <T extends Persistent> void save(T object) {
-		if (!objetos.containsKey(object.getClass())) {
-			objetos.put(object.getClass(), new HashMap<Long, Persistent>());
+	public <T extends Serializable> void save(T object) {
+		Persistent pers;
+		if (!Persistent.class.isAssignableFrom(object.getClass())) {
+			pers = new ThirdPartAdapter<Serializable>(object);
+		} else {
+			pers = (Persistent) object;
 		}
-		objetos.get(object.getClass()).put(object.getId(), object);
+		if (!objetos.containsKey(object.getClass())) {
+			objetos.put(object.getClass(), new HashMap<Integer, Persistent>());
+		}
+		objetos.get(object.getClass()).put(pers.getId(), pers);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends Persistent> Collection<T> getAll(Class<T> type) {
+	public <T extends Serializable> Collection<T> getAll(Class<T> type) {
 		if (objetos.containsKey(type)) {
 			return (Collection<T>) objetos.get(type).values();
 		}

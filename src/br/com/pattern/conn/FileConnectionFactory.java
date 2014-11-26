@@ -1,11 +1,11 @@
 package br.com.pattern.conn;
 
-import java.io.File;
+import java.nio.file.Path;
 
 public class FileConnectionFactory extends ConnectionFactory {
-	private File outFolder;
+	private Path outFolder;
 
-	public FileConnectionFactory(File outFolder) {
+	public FileConnectionFactory(Path outFolder) {
 		this.outFolder = outFolder;
 	}
 

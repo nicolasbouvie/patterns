@@ -1,9 +1,11 @@
 package br.com.pattern.util;
 
+import java.nio.file.Paths;
+
 import br.com.pattern.conn.Configuration;
-import br.com.pattern.conn.ConfigurationType;
 import br.com.pattern.conn.Connection;
 import br.com.pattern.conn.ConnectionFactory;
+import br.com.pattern.conn.FileConfiguration;
 
 public class ConnectionUtil {
 	private ConnectionUtil() {
@@ -13,8 +15,9 @@ public class ConnectionUtil {
 	private static class Holder {
 		private static final ConnectionFactory factory;
 		static {
-			Configuration config = 
-					Configuration.build(ConfigurationType.MEMORY);
+			FileConfiguration config = Configuration.build(FileConfiguration.class);
+			config.setOutFolder(Paths.get("./db"));
+			//MemoryConfiguration config = Configuration.build(MemoryConfiguration.class);
 			factory = config.buildFactory();
 		}
 	}
