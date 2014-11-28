@@ -2,7 +2,9 @@ package br.com.pattern.conn;
 
 public class MemoryConfiguration extends Configuration {
 
-	//metodos para configuracao do memory
+	public MemoryConfiguration setMaxRegistries(int max) {
+		return this;
+	}
 	
 	@Override
 	public ConnectionFactory buildFactory() {
