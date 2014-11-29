@@ -12,13 +12,13 @@ import java.util.Map;
 
 import br.com.pattern.conn.Connection;
 
-public class LazzyList<E extends Serializable> extends AbstractList<E> {
+public class LazyList<E extends Serializable> extends AbstractList<E> {
 	private final Map<Integer, E> values = new HashMap<>();
 	private final File[] files;
 	private final Connection conn;
 	private final Class<E> type;
 	
-	public LazzyList(Class<E> type, File[] files, Connection conn) {
+	public LazyList(Class<E> type, File[] files, Connection conn) {
 		this.type = type;
 		this.files = files;
 		this.conn = conn;
@@ -71,6 +71,6 @@ public class LazzyList<E extends Serializable> extends AbstractList<E> {
 	@Override
 	public List<E> subList(int fromIndex, int toIndex) {
 		File[] subFiles = Arrays.copyOfRange(files, fromIndex, toIndex);
-		return new LazzyList<E>(type, subFiles, conn);
+		return new LazyList<E>(type, subFiles, conn);
 	}
 }

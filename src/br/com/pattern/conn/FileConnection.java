@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import br.com.pattern.model.ThirdPartAdapter;
-import br.com.pattern.util.LazzyList;
+import br.com.pattern.util.LazyList;
 
 public class FileConnection implements Connection {
 	private Path outFolder;
@@ -49,7 +49,7 @@ public class FileConnection implements Connection {
 
 	@Override
 	public <T extends Serializable> List<T> getAll(Class<T> type) {
-		return new LazzyList<T>(type, getDir(type).toFile().listFiles(), this);
+		return new LazyList<T>(type, getDir(type).toFile().listFiles(), this);
 	}
 
 	@Override
